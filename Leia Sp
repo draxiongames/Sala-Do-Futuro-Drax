@@ -1,0 +1,96 @@
+javascript:(function(){
+    if(document.getElementById("drax-menu")) return;
+
+    let rodando = false;
+    let intervalo = null;
+
+    const menu = document.createElement("div");
+    menu.id = "drax-menu";
+    menu.innerHTML = `
+        <div id="drax-header">🔥 Drax Studio</div>
+        <div id="drax-status">Status: Parado</div>
+        <button id="drax-btn">INICIAR</button>
+    `;
+
+    const style = document.createElement("style");
+    style.innerHTML = `
+        #drax-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0d0d0d;
+            border: 2px solid #ff6a00;
+            border-radius: 15px;
+            padding: 15px;
+            z-index: 999999;
+            font-family: Arial;
+            box-shadow: 0 0 20px #ff6a00;
+            width: 180px;
+            text-align: center;
+        }
+
+        #drax-header {
+            color: #ff6a00;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff6a00;
+        }
+
+        #drax-status {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        #drax-btn {
+            width: 100%;
+            padding: 8px;
+            background: #ff6a00;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ff6a00;
+            transition: 0.3s;
+        }
+
+        #drax-btn:hover {
+            background: #ff8c1a;
+            box-shadow: 0 0 15px #ff8c1a;
+        }
+    `;
+
+    document.body.appendChild(menu);
+    document.head.appendChild(style);
+
+    const btn = document.getElementById("drax-btn");
+    const status = document.getElementById("drax-status");
+
+    btn.onclick = () => {
+        const botao = document.getElementById("vanilla-reader__nav__button-next");
+
+        if(!botao){
+            status.innerText = "Erro: botão não encontrado";
+            return;
+        }
+
+        if(!rodando){
+            rodando = true;
+            status.innerText = "Status: Rodando";
+            btn.innerText = "PARAR";
+
+            intervalo = setInterval(() => {
+                botao.click();
+            }, 10000);
+
+        } else {
+            rodando = false;
+            status.innerText = "Status: Parado";
+            btn.innerText = "INICIAR";
+
+            clearInterval(intervalo);
+        }
+    };
+})();
